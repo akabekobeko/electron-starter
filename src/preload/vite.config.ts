@@ -16,7 +16,7 @@ export default defineConfig({
     },
     minify: false,
     emptyOutDir: true,
-    rollupOptions: {
+    rolldownOptions: {
       external: [
         'electron',
         ...builtinModules,
