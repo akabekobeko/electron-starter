@@ -1,0 +1,30 @@
+{
+  "name": "electron-starter",
+  "version": "1.0.0",
+  "description": "Electron + Vite starter template",
+  "private": true,
+  "type": "module",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build:main && npm run build:preload && npm run build:renderer",
+    "build:main": "vite build --config src/main/vite.config.ts",
+    "build:preload": "vite build --config src/preload/vite.config.ts",
+    "build:renderer": "vite build --config src/renderer/vite.config.ts",
+    "typecheck": "tsc --build",
+    "package": "npm run build && electron-builder"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "electron": "^41.0.3",
+    "electron-builder": "^26.8.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.1"
+  }
+}
