@@ -3,15 +3,21 @@
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
-    "strict": true,
+    "outDir": "dist",
+    "isolatedModules": true,
+    "sourceMap": false,
+    "composite": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "composite": true,
-    "outDir": "dist"
+    "resolveJsonModule": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedIndexedAccess": true,
+    "types": ["node"]
   },
-  "include": [
-    "src/main/**/*.ts",
-    "src/preload/**/*.ts"
-  ]
+  "include": ["src/main/**/*.ts", "src/preload/**/*.ts"]
 }
