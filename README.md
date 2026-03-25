@@ -21,9 +21,8 @@ pnpm install
 pnpm run sync-targets
 ```
 
-`sync-targets` detects the Chrome and Node.js versions bundled with the installed Electron, then updates `tsconfig.node.json` and `tsconfig.web.json` (`target` / `module`) accordingly.
+`sync-targets` detects the Chrome and Node.js versions bundled with the installed Electron, then updates the following files:
 
-Vite build targets for each process are resolved dynamically at build time and require no manual update:
-
-- **renderer** — `chrome{major}` via `getElectronChromeTarget()`
-- **main / preload** — `node{major}` via `getElectronNodeTarget()`
+- `tsconfig.node.json` / `tsconfig.web.json` — `target` and `module`
+- `src/main/vite.config.ts` / `src/preload/vite.config.ts` — `build.target` (`node{major}`)
+- `src/renderer/vite.config.ts` — `build.target` (`chrome{major}`)

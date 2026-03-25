@@ -19,29 +19,11 @@ function queryElectronVersion(key) {
 }
 
 /**
- * Get the Chrome major version bundled with the installed Electron.
- * @returns {string} e.g. "chrome146"
- */
-export function getElectronChromeTarget() {
-  const major = queryElectronVersion("chrome").split(".")[0];
-  return `chrome${major}`;
-}
-
-/**
- * Get the Node.js major version bundled with the installed Electron.
- * @returns {string} e.g. "node22"
- */
-export function getElectronNodeTarget() {
-  const major = queryElectronVersion("node").split(".")[0];
-  return `node${major}`;
-}
-
-/**
  * Map a Chrome major version to the highest ES target it fully supports.
  * @param {number} major
  * @returns {string} e.g. "ES2024"
  */
-export function chromeToEsTarget(major) {
+function chromeToEsTarget(major) {
   if (major >= 133) return "ES2024";
   if (major >= 117) return "ES2023";
   return "ES2022";
@@ -52,7 +34,7 @@ export function chromeToEsTarget(major) {
  * @param {number} major
  * @returns {string} e.g. "ES2024"
  */
-export function nodeToEsTarget(major) {
+function nodeToEsTarget(major) {
   if (major >= 22) return "ES2024";
   if (major >= 20) return "ES2023";
   return "ES2022";
