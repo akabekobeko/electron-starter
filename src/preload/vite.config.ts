@@ -7,7 +7,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname)
 export default defineConfig({
   root: __dirname,
   build: {
-    target: 'node22',
+    target: 'node24',
     outDir: '../../dist/preload',
     lib: {
       entry: 'index.ts',
