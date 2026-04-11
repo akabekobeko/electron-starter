@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const versions = window.electronAPI?.versions
+  const [count, setCount] = useState(0);
+  const versions = window.electronAPI?.versions;
 
   return (
     <div className="mx-auto max-w-3xl p-8 text-center">
@@ -25,7 +25,7 @@ function App() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

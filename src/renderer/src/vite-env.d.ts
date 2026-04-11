@@ -2,12 +2,12 @@
 
 interface ElectronAPI {
   versions: {
-    node: string
-    chrome: string
-    electron: string
-  }
+    node: string;
+    chrome: string;
+    electron: string;
+  };
 }
 
 interface Window {
-  electronAPI?: ElectronAPI
+  electronAPI?: ElectronAPI;
 }
