@@ -1,27 +1,27 @@
-import { defineConfig } from 'vite'
-import { builtinModules } from 'node:module'
-import path from 'node:path'
+import { defineConfig } from "vite";
+import { builtinModules } from "node:module";
+import path from "node:path";
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 export default defineConfig({
   root: __dirname,
   build: {
-    target: 'node24',
-    outDir: '../../dist/preload',
+    target: "node24",
+    outDir: "../../dist/preload",
     lib: {
-      entry: 'index.ts',
-      formats: ['cjs'],
-      fileName: () => 'index.cjs'
+      entry: "index.ts",
+      formats: ["cjs"],
+      fileName: () => "index.cjs",
     },
     minify: false,
     emptyOutDir: true,
     rolldownOptions: {
       external: [
-        'electron',
+        "electron",
         ...builtinModules,
-        ...builtinModules.map((m) => `node:${m}`)
-      ]
-    }
-  }
-})
+        ...builtinModules.map((m) => `node:${m}`),
+      ],
+    },
+  },
+});

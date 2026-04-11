@@ -1,27 +1,27 @@
-import { defineConfig } from 'vite'
-import { builtinModules } from 'node:module'
-import path from 'node:path'
+import { defineConfig } from "vite";
+import { builtinModules } from "node:module";
+import path from "node:path";
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 export default defineConfig({
   root: __dirname,
   build: {
-    target: 'node24',
-    outDir: '../../dist/main',
+    target: "node24",
+    outDir: "../../dist/main",
     lib: {
-      entry: 'index.ts',
-      formats: ['es'],
-      fileName: () => 'index.js'
+      entry: "index.ts",
+      formats: ["es"],
+      fileName: () => "index.js",
     },
     minify: false,
     emptyOutDir: true,
     rolldownOptions: {
       external: [
-        'electron',
+        "electron",
         ...builtinModules,
-        ...builtinModules.map((m) => `node:${m}`)
-      ]
-    }
-  }
-})
+        ...builtinModules.map((m) => `node:${m}`),
+      ],
+    },
+  },
+});
