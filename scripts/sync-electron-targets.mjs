@@ -6,7 +6,7 @@ import { detectElectronEsTarget } from "./electron-chrome-version.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 
-const { esTarget, chromeMajor, nodeMajor } = detectElectronEsTarget();
+const { esTarget, chromeMajor, nodeMajor, nodeVersion } = detectElectronEsTarget();
 
 const chromeTarget = `chrome${chromeMajor}`;
 const nodeTarget = `node${nodeMajor}`;
@@ -68,6 +68,26 @@ function updateViteConfig(relativePath, newTarget) {
   console.log(`  ${relativePath}: ${prev} -> ${newTarget}`);
 }
 
+/**
+ * Update the Node.js version in .mise.toml.
+ * @param {string} newVersion - Full version string (e.g. "24.14.1")
+ */
+function updateMiseToml(newVersion) {
+  const filePath = resolve(root, ".mise.toml");
+  let text = readFileSync(filePath, "utf-8");
+
+  const match = text.match(/^node\s*=\s*"([^"]*)"/m);
+  const prev = match ? match[1] : "unknown";
+
+  text = text.replace(
+    /^(node\s*=\s*")[^"]*(")/m,
+    `$1${newVersion}$2`,
+  );
+
+  writeFileSync(filePath, text);
+  console.log(`  node: ${prev} -> ${newVersion}`);
+}
+
 console.log("\ntsconfig:");
 updateTsconfig("tsconfig.node.json");
 updateTsconfig("tsconfig.web.json");
@@ -77,4 +97,10 @@ updateViteConfig("src/main/vite.config.ts", nodeTarget);
 updateViteConfig("src/preload/vite.config.ts", nodeTarget);
 updateViteConfig("src/renderer/vite.config.ts", chromeTarget);
 
+console.log("\n.mise.toml:");
+updateMiseToml(nodeVersion);
+
 console.log("\nDone.");
+console.log(
+  "\nNote: If the Node.js major version changed, run `mise install` to install the new version.",
+);

@@ -47,11 +47,13 @@ function nodeToEsTarget(major) {
  * @returns {{ esTarget: string, chromeMajor: number, nodeMajor: number }}
  */
 export function detectElectronEsTarget() {
-  const chromeMajor = Number(queryElectronVersion("chrome").split(".")[0]);
-  const nodeMajor = Number(queryElectronVersion("node").split(".")[0]);
+  const chromeVersion = queryElectronVersion("chrome");
+  const nodeVersion = queryElectronVersion("node");
+  const chromeMajor = Number(chromeVersion.split(".")[0]);
+  const nodeMajor = Number(nodeVersion.split(".")[0]);
   const chromeEs = chromeToEsTarget(chromeMajor);
   const nodeEs = nodeToEsTarget(nodeMajor);
   // Use the lower of the two to ensure compatibility
   const esTarget = chromeEs < nodeEs ? chromeEs : nodeEs;
-  return { esTarget, chromeMajor, nodeMajor };
+  return { esTarget, chromeMajor, nodeMajor, nodeVersion };
 }
