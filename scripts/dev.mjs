@@ -10,6 +10,10 @@ const root = path.join(__dirname, '..')
 /** @type {import('node:child_process').ChildProcess | null} */
 let electronProcess = null
 
+/**
+ * (Re)start the Electron process.
+ * Kills any previously spawned instance before launching a new one.
+ */
 function startElectron() {
   if (electronProcess) {
     electronProcess.removeAllListeners()
