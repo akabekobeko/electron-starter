@@ -3,9 +3,6 @@ import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const root = path.join(__dirname, '..')
-
 /**
  * Prompt the user for input with a default value.
  * Returns the default if the user enters an empty string.
@@ -24,6 +21,8 @@ async function prompt(rl, message, defaultValue) {
  * Updates package.json, electron-builder.yml, and LICENSE.
  */
 async function initElectronProject() {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url))
+  const root = path.join(__dirname, '..')
   const rl = createInterface({ input: process.stdin, output: process.stdout })
 
   try {

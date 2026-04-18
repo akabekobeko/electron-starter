@@ -3,17 +3,15 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getElectronTargetEnv } from "./get-electron-target-env.mjs";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const root = resolve(__dirname, "..");
-
 /**
  * Update target and module in a tsconfig JSON file.
  * Performs text-level replacement to preserve the original formatting.
+ * @param {string} root - Project root directory.
  * @param {string} relativePath
  * @param {string} esTarget
  * @param {string} moduleTarget
  */
-function updateTsconfig(relativePath, esTarget, moduleTarget) {
+function updateTsconfig(root, relativePath, esTarget, moduleTarget) {
   const filePath = resolve(root, relativePath);
   let text = readFileSync(filePath, "utf-8");
   const json = JSON.parse(text);
@@ -39,10 +37,11 @@ function updateTsconfig(relativePath, esTarget, moduleTarget) {
 /**
  * Update the build target in a vite.config.ts file.
  * Matches the pattern: target: '...' or target: "..."
+ * @param {string} root - Project root directory.
  * @param {string} relativePath
  * @param {string} newTarget
  */
-function updateViteConfig(relativePath, newTarget) {
+function updateViteConfig(root, relativePath, newTarget) {
   const filePath = resolve(root, relativePath);
   let text = readFileSync(filePath, "utf-8");
 
@@ -60,9 +59,10 @@ function updateViteConfig(relativePath, newTarget) {
 
 /**
  * Update the Node.js version in .mise.toml.
+ * @param {string} root - Project root directory.
  * @param {string} newVersion - Full version string (e.g. "24.14.1")
  */
-function updateMiseToml(newVersion) {
+function updateMiseToml(root, newVersion) {
   const filePath = resolve(root, ".mise.toml");
   let text = readFileSync(filePath, "utf-8");
 
@@ -83,6 +83,9 @@ function updateMiseToml(newVersion) {
  * with the installed Electron's bundled Chrome and Node.js versions.
  */
 function syncElectronTargets() {
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const root = resolve(__dirname, "..");
+
   const { esTarget, chromeMajor, nodeMajor, nodeVersion } = getElectronTargetEnv();
 
   const chromeTarget = `chrome${chromeMajor}`;
@@ -96,16 +99,16 @@ function syncElectronTargets() {
   const moduleTarget = esTarget > "ES2022" ? "ESNext" : esTarget;
 
   console.log("\ntsconfig:");
-  updateTsconfig("tsconfig.node.json", esTarget, moduleTarget);
-  updateTsconfig("tsconfig.web.json", esTarget, moduleTarget);
+  updateTsconfig(root, "tsconfig.node.json", esTarget, moduleTarget);
+  updateTsconfig(root, "tsconfig.web.json", esTarget, moduleTarget);
 
   console.log("\nvite.config.ts:");
-  updateViteConfig("src/main/vite.config.ts", nodeTarget);
-  updateViteConfig("src/preload/vite.config.ts", nodeTarget);
-  updateViteConfig("src/renderer/vite.config.ts", chromeTarget);
+  updateViteConfig(root, "src/main/vite.config.ts", nodeTarget);
+  updateViteConfig(root, "src/preload/vite.config.ts", nodeTarget);
+  updateViteConfig(root, "src/renderer/vite.config.ts", chromeTarget);
 
   console.log("\n.mise.toml:");
-  updateMiseToml(nodeVersion);
+  updateMiseToml(root, nodeVersion);
 
   console.log("\nDone.");
   console.log(
