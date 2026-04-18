@@ -41,12 +41,12 @@ function nodeToEsTarget(major) {
 }
 
 /**
- * Detect the ES target for tsconfig based on the installed Electron.
+ * Get the target environment information based on the installed Electron.
  * Returns the lower of Chrome and Node ES targets to ensure compatibility
  * across both main and renderer processes.
- * @returns {{ esTarget: string, chromeMajor: number, nodeMajor: number }}
+ * @returns {{ esTarget: string, chromeMajor: number, nodeMajor: number, nodeVersion: string }}
  */
-export function detectElectronEsTarget() {
+export function getElectronTargetEnv() {
   const chromeVersion = queryElectronVersion("chrome");
   const nodeVersion = queryElectronVersion("node");
   const chromeMajor = Number(chromeVersion.split(".")[0]);

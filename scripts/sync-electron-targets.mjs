@@ -1,29 +1,19 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { detectElectronEsTarget } from "./electron-chrome-version.mjs";
+import { getElectronTargetEnv } from "./get-electron-target-env.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
-
-const { esTarget, chromeMajor, nodeMajor, nodeVersion } = detectElectronEsTarget();
-
-const chromeTarget = `chrome${chromeMajor}`;
-const nodeTarget = `node${nodeMajor}`;
-
-console.log(`Electron bundled versions: Chrome ${chromeMajor}, Node ${nodeMajor}`);
-console.log(`ES target: ${esTarget}`);
-console.log(`Vite targets: ${chromeTarget} (renderer), ${nodeTarget} (main/preload)`);
-
-// TypeScript `module` only accepts up to "ES2022"; for higher ES targets use "ESNext".
-const moduleTarget = esTarget > "ES2022" ? "ESNext" : esTarget;
 
 /**
  * Update target and module in a tsconfig JSON file.
  * Performs text-level replacement to preserve the original formatting.
  * @param {string} relativePath
+ * @param {string} esTarget
+ * @param {string} moduleTarget
  */
-function updateTsconfig(relativePath) {
+function updateTsconfig(relativePath, esTarget, moduleTarget) {
   const filePath = resolve(root, relativePath);
   let text = readFileSync(filePath, "utf-8");
   const json = JSON.parse(text);
@@ -88,19 +78,39 @@ function updateMiseToml(newVersion) {
   console.log(`  node: ${prev} -> ${newVersion}`);
 }
 
-console.log("\ntsconfig:");
-updateTsconfig("tsconfig.node.json");
-updateTsconfig("tsconfig.web.json");
+/**
+ * Sync tsconfig, vite.config.ts, and .mise.toml targets
+ * with the installed Electron's bundled Chrome and Node.js versions.
+ */
+function syncElectronTargets() {
+  const { esTarget, chromeMajor, nodeMajor, nodeVersion } = getElectronTargetEnv();
 
-console.log("\nvite.config.ts:");
-updateViteConfig("src/main/vite.config.ts", nodeTarget);
-updateViteConfig("src/preload/vite.config.ts", nodeTarget);
-updateViteConfig("src/renderer/vite.config.ts", chromeTarget);
+  const chromeTarget = `chrome${chromeMajor}`;
+  const nodeTarget = `node${nodeMajor}`;
 
-console.log("\n.mise.toml:");
-updateMiseToml(nodeVersion);
+  console.log(`Electron bundled versions: Chrome ${chromeMajor}, Node ${nodeMajor}`);
+  console.log(`ES target: ${esTarget}`);
+  console.log(`Vite targets: ${chromeTarget} (renderer), ${nodeTarget} (main/preload)`);
 
-console.log("\nDone.");
-console.log(
-  "\nNote: If the Node.js major version changed, run `mise install` to install the new version.",
-);
+  // TypeScript `module` only accepts up to "ES2022"; for higher ES targets use "ESNext".
+  const moduleTarget = esTarget > "ES2022" ? "ESNext" : esTarget;
+
+  console.log("\ntsconfig:");
+  updateTsconfig("tsconfig.node.json", esTarget, moduleTarget);
+  updateTsconfig("tsconfig.web.json", esTarget, moduleTarget);
+
+  console.log("\nvite.config.ts:");
+  updateViteConfig("src/main/vite.config.ts", nodeTarget);
+  updateViteConfig("src/preload/vite.config.ts", nodeTarget);
+  updateViteConfig("src/renderer/vite.config.ts", chromeTarget);
+
+  console.log("\n.mise.toml:");
+  updateMiseToml(nodeVersion);
+
+  console.log("\nDone.");
+  console.log(
+    "\nNote: If the Node.js major version changed, run `mise install` to install the new version.",
+  );
+}
+
+syncElectronTargets();
