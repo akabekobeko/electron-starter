@@ -2,10 +2,37 @@
 
 A template project for developing new Electron applications.
 
+## Getting Started
+
+### Prerequisites
+
+This project uses [mise](https://mise.jdx.dev/) to manage tool versions (Node.js, pnpm, etc.).
+
+Install mise by following the official guide: [Getting Started - mise](https://mise.jdx.dev/getting-started.html)
+
+### Setup
+
+```sh
+git clone https://github.com/akabeko/electron-starter.git my-app
+cd my-app
+mise install
+pnpm install
+pnpm run init
+```
+
+`pnpm run init` interactively sets your app's package name, product name, description, app ID, and LICENSE copyright.
+
+After setup, start the development server:
+
+```sh
+pnpm run dev
+```
+
 ## Scripts
 
 | Script | Description |
 | --- | --- |
+| `init` | Initialize the project with your app name, ID, and license |
 | `dev` | Start the development server |
 | `build` | Build all processes (main, preload, renderer) |
 | `typecheck` | Run TypeScript type checking |
