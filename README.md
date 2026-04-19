@@ -13,7 +13,7 @@ Install mise by following the official guide: [Getting Started - mise](https://m
 ### Setup
 
 ```sh
-git clone https://github.com/akabeko/electron-starter.git my-app
+npx degit akabeko/electron-starter my-app
 cd my-app
 mise install
 pnpm install
