@@ -16,10 +16,10 @@ First, create a new project from this template using one of the following method
 
 ```sh
 # Using npx
-npx degit akabeko/electron-starter my-app
+npx tiged akabeko/electron-starter my-app
 
 # Using pnpm
-pnpm dlx degit akabeko/electron-starter my-app
+pnpm dlx tiged akabeko/electron-starter my-app
 ```
 
 Then install dependencies and run the interactive setup:
