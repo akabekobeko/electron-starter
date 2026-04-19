@@ -12,8 +12,19 @@ Install mise by following the official guide: [Getting Started - mise](https://m
 
 ### Setup
 
+First, create a new project from this template using one of the following methods:
+
 ```sh
-git clone https://github.com/akabeko/electron-starter.git my-app
+# Using npx
+npx degit akabeko/electron-starter my-app
+
+# Using pnpm
+pnpm dlx degit akabeko/electron-starter my-app
+```
+
+Then install dependencies and run the interactive setup:
+
+```sh
 cd my-app
 mise install
 pnpm install
