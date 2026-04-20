@@ -39,16 +39,48 @@ After setup, start the development server:
 pnpm run dev
 ```
 
+## File Structure
+
+```
+/
+├── scripts/                     # Development tools
+├── src/
+│   ├── main/
+│   │   ├── main.ts              # Main process entry point
+│   │   └── vite.config.ts
+│   ├── preload/
+│   │   ├── preload.ts           # Preload script entry point
+│   │   └── vite.config.ts
+│   └── renderer/
+│       ├── components/
+│       │   ├── app/             # Application-specific components
+│       │   └── ui/              # shadcn/ui components
+│       ├── libs/                # Shared libraries
+│       ├── App.css
+│       ├── App.tsx
+│       ├── index.html
+│       ├── renderer.tsx         # Renderer process entry point
+│       ├── vite-env.d.ts
+│       └── vite.config.ts
+├── biome.json
+├── components.json              # shadcn/ui configuration
+├── electron-builder.yml
+├── tsconfig.json
+├── tsconfig.node.json           # main / preload
+├── tsconfig.web.json            # renderer
+└── vitest.config.ts
+```
+
 ## Scripts
 
-| Script | Description |
-| --- | --- |
-| `init` | Initialize the project with your app name, ID, and license |
-| `dev` | Start the development server |
-| `build` | Build all processes (main, preload, renderer) |
-| `typecheck` | Run TypeScript type checking |
-| `package` | Build and package the app with electron-builder |
-| `sync-targets` | Sync tsconfig targets with the installed Electron version |
+| Script         | Description                                                |
+| -------------- | ---------------------------------------------------------- |
+| `init`         | Initialize the project with your app name, ID, and license |
+| `dev`          | Start the development server                               |
+| `build`        | Build all processes (main, preload, renderer)              |
+| `typecheck`    | Run TypeScript type checking                               |
+| `package`      | Build and package the app with electron-builder            |
+| `sync-targets` | Sync tsconfig targets with the installed Electron version  |
 
 ## Updating Electron
 
