@@ -42,7 +42,7 @@ pnpm run dev
 ## File Structure
 
 ```
-electron-starter/
+/
 ├── scripts/                     # Development tools
 ├── src/
 │   ├── main/
