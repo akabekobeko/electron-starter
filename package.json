@@ -17,11 +17,14 @@
     "test": "vitest",
     "typecheck": "tsc --build",
     "package": "npm run build && electron-builder",
-    "init": "node scripts/init.mjs"
+    "init": "node scripts/init.mjs",
+    "shadcn": "node scripts/shadcn.mjs",
+    "prepare": "lefthook install"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "electron"
+      "electron",
+      "lefthook"
     ]
   },
   "devDependencies": {
@@ -37,6 +40,7 @@
     "clsx": "^2.1.1",
     "electron": "^41.3.0",
     "electron-builder": "^26.8.1",
+    "lefthook": "^2.1.6",
     "lucide-react": "^1.9.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
