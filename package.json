@@ -21,14 +21,6 @@
     "shadcn": "node scripts/shadcn.mjs",
     "prepare": "lefthook install"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "electron",
-      "electron-winstaller",
-      "lefthook",
-      "msw"
-    ]
-  },
   "devDependencies": {
     "@base-ui/react": "^1.4.1",
     "@biomejs/biome": "^2.4.14",
