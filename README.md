@@ -31,7 +31,7 @@ pnpm install
 pnpm run init
 ```
 
-`pnpm run init` interactively sets your app's package name, product name, description, app ID, and LICENSE copyright.
+`pnpm run init` interactively sets your app's package name, product name, description, app ID, and LICENSE copyright. The package name is also used to isolate the development `userData` directory (see [Development userData Directory](#development-userdata-directory)).
 
 After setup, start the development server:
 
@@ -83,6 +83,22 @@ pnpm run dev
 | `package`      | Build and package the app with electron-builder            |
 | `sync-targets` | Sync tsconfig targets with the installed Electron version  |
 | `shadcn`       | Run the shadcn CLI against the renderer tsconfig           |
+
+## Development userData Directory
+
+When running unpackaged (`pnpm run dev`), the app runs on the shared Electron binary, so Electron's `userData` path would default to a generic `Electron` directory shared by every Electron app in development. To keep data (cookies, local storage, caches, etc.) isolated per project, `src/main/main.ts` redirects `userData` to a directory named after the `name` field in `package.json`:
+
+- macOS: `~/Library/Application Support/<package name>`
+- Windows: `%APPDATA%\<package name>`
+- Linux: `~/.config/<package name>`
+
+The package name is injected into the main process at build time via Vite's `define` option (`src/main/vite.config.ts`), so the directory follows whatever name you set with `pnpm run init`.
+
+Notes:
+
+- **Packaged builds are not affected.** The redirect only applies when `app.isPackaged` is `false`. Apps packaged with electron-builder already get their own `userData` directory derived from `productName`, so production behavior is unchanged.
+- If you rename the package after running `pnpm run dev`, a new directory is created for the new name and the old one is left behind. Delete the old directory manually if you no longer need its data.
+- If the package name matches your `productName`, the development directory and the packaged app's directory can be the same path. Keep them different (e.g. kebab-case package name vs. capitalized product name) if you want dev and production data separated.
 
 ## Adding shadcn/ui Components
 
