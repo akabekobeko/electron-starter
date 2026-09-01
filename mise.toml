@@ -1,3 +1,6 @@
+[settings]
+npm.shell_out = true
+
 [tools]
-node = "24.18.1"
-"npm:pnpm" = "11.24.0"
+node = "24.19.0"
+"npm:pnpm" = { version = "12.1.0", npm_args = "--ignore-scripts=false" }
